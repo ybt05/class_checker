@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+body {
+    padding-top: 80px;
+    color: #000000;
+    font-family: "system-ui";
+    background-color: #ffffff;
+}
+
+main.support {
+    padding-left: 80px;
+    padding-right: 40px;
+    font-size: 20px;
+}
+
