@@ -1,60 +1,69 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<table id="dataTable" class="display">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>名前</th>
-            <th>年齢</th>
-        </tr>
-        <tr>
-            <th>
-                <button class="id-options">IDフィルター</button>
-                <div class="id-filter" style="display: none;">
-                    <label><input type="checkbox" value="">すべて</label>
-                    {% for item in data %}
+<div class="table-container"> <!-- 追加: テーブルを囲む div -->
+    <table id="dataTable" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>名前</th>
+                <th>年齢</th>
+            </tr>
+            <tr>
+                <th>
+                    <button class="id-options">IDフィルター</button>
+                    <button class="column-options" data-column="0">オプション</button>
+                    <div class="id-filter" style="display: none;">
+                        <label><input type="checkbox" value="">すべて</label>
+                        {% for item in data %}
                         <label><input type="checkbox" class="id-checkbox" value="{{ item.id }}">{{ item.id }}</label>
-                    {% endfor %}
-                </div>
-            </th>
-            <th>
-                <button class="column-options" data-column="1">オプション</button>
-                <input type="text" placeholder="名前で検索" />
-            </th>
-            <th>
-                <button class="column-options" data-column="2">オプション</button>
-                <input type="text" placeholder="年齢で検索" />
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in data %}
-        <tr>
-            <td>{{ item.id }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.age }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                        {% endfor %}
+                    </div>
+                </th>
+                <th>
+                    <button class="column-options" data-column="1">オプション</button>
+                    <input type="text" class="name-search" placeholder="名前で検索" />
+                </th>
+                <th>
+                    <button class="column-options" data-column="2">オプション</button>
+                    <input type="text" class="age-search" placeholder="年齢で検索" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.age }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 <!-- オプションメニュー -->
-<div id="columnMenu" style="display: none; position: absolute; background: white; border: 1px solid #ccc; z-index: 1000; padding: 10px;">
+<div id="columnMenu"
+    style="display: none; position: absolute; background: white; border: 1px solid #ccc; z-index: 1000; padding: 10px;">
     <button class="sort-asc">昇順で並び替え</button>
     <button class="sort-desc">降順で並び替え</button>
-    <button class="clear-sort">並び替えをクリア</button>
     <button class="clear-filter">フィルターをクリア</button>
-    <button class="toggle-hide">この列を非表示</button>
-    <button class="toggle-show" style="display: none;">この列を表示</button>
 </div>
 
 <style>
-    #columnMenu, .id-filter {
+    .table-container {
+        margin: 0 20px;
+        /* 左右の余白を設定 */
+    }
+
+    #columnMenu,
+    .id-filter {
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         border-radius: 5px;
     }
-    #columnMenu button, .id-filter label {
+
+    #columnMenu button,
+    .id-filter label {
         display: block;
         width: 100%;
         margin: 5px 0;
@@ -63,68 +72,67 @@
         background: #f8f9fa;
         cursor: pointer;
     }
-    #columnMenu button:hover, .id-filter label:hover {
+
+    #columnMenu button:hover,
+    .id-filter label:hover {
         background: #e2e6ea;
     }
+
     .id-filter {
         padding: 10px;
         background: white;
         position: absolute;
         z-index: 1000;
-        display: none; /* 初期は非表示 */
+        display: none;
+        /* 初期は非表示 */
     }
 </style>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         var table = $('#dataTable').DataTable({
             "searching": true,
-            "ordering": true,
+            "ordering": true, // 各列のヘッダーでのソートを有効化
             "lengthChange": false,
             "paging": false,
             "language": {
                 "info": "",
-                "emptyTable": "データがありません"
-            }
+                "emptyTable": "データがありません",
+                "zeroRecords": "",
+                "infoFiltered": "",
+                "infoEmpty": "",
+                "lengthMenu": ""
+            },
+            "columnDefs": [
+                { "orderable": false, "targets": "_all" } // 全列のクリックソート無効化
+            ]
         });
 
-        // IDフィルター
-        $('.id-checkbox').on('change', function() {
-            var selectedIds = $('.id-checkbox:checked').map(function() {
-                return this.value;
-            }).get();
-            var regex = selectedIds.length > 0 ? '^(' + selectedIds.join('|') + ')$' : '';
-            table.column(0).search(regex, true, false).draw();
+        // 列ごとの検索ボックスの入力イベント
+        $('.name-search').on('keyup change', function () {
+            var columnIndex = 1; // 名前列のインデックス
+            table.column(columnIndex).search(this.value).draw();
         });
 
-        // 全てのIDを選択するチェックボックス
-        $('.id-filter input[type="checkbox"]').first().on('change', function() {
-            $('.id-checkbox').prop('checked', this.checked).change();
-        });
-
-        // 各検索ボックスに対するイベントハンドラ
-        table.columns().every(function() {
-            var column = this;
-            $('input', this.header()).on('keyup change clear', function() {
-                if (column.search() !== this.value) {
-                    column.search(this.value).draw();
-                }
-            });
+        $('.age-search').on('keyup change', function () {
+            var columnIndex = 2; // 年齢列のインデックス
+            table.column(columnIndex).search(this.value).draw();
         });
 
         // オプションメニュー表示
-        $('.column-options').on('click', function(e) {
+        $('.column-options').on('click', function (e) {
+            e.stopPropagation();
             var columnIndex = $(this).data('column');
             var menu = $('#columnMenu');
 
-            // メニュー位置を設定
+            var buttonPosition = $(this).offset();
             menu.css({
-                top: e.pageY + 'px',
-                left: e.pageX + 'px'
-            }).show();
+                top: buttonPosition.top + $(this).outerHeight(),
+                left: buttonPosition.left
+            }).show().data('columnIndex', columnIndex); // 列インデックスをメニューに保存
 
             // ボタンの機能設定
-            menu.off('click').on('click', 'button', function() {
+            menu.off('click').on('click', 'button', function () {
                 switch ($(this).text()) {
                     case '昇順で並び替え':
                         table.order([columnIndex, 'asc']).draw();
@@ -132,43 +140,51 @@
                     case '降順で並び替え':
                         table.order([columnIndex, 'desc']).draw();
                         break;
-                    case '並び替えをクリア':
-                        table.order([]).draw();
-                        break;
                     case 'フィルターをクリア':
-                        column.search('').draw();
-                        $('input', table.column(columnIndex).header()).val('');
-                        break;
-                    case 'この列を非表示':
-                        table.column(columnIndex).visible(false);
-                        $(this).siblings('.toggle-show').show();
-                        $(this).hide();
-                        break;
-                    case 'この列を表示':
-                        table.column(columnIndex).visible(true);
-                        $(this).siblings('.toggle-hide').show();
-                        $(this).hide();
+                        table.search('').draw(); // 全体のフィルターをクリア
+                        $('input', table.column(columnIndex).header()).val(''); // 検索ボックスもクリア
+                        $('.id-checkbox').prop('checked', false); // IDフィルターのチェックボックスもクリア
+                        table.column(0).search('').draw(); // ID列のフィルターをクリア
                         break;
                 }
-                menu.hide(); // メニューを閉じる
             });
         });
 
-        // IDフィルターのオプションメニュー表示
-        $('.id-options').on('click', function(e) {
-            e.stopPropagation(); // メニュー外クリックを防ぐ
-            $('.id-filter').css({
-                top: e.pageY + 'px',
-                left: e.pageX + 'px'
-            }).toggle(); // メニューの表示切替
+        // IDフィルターの表示切り替え
+        $('.id-options').on('click', function (e) {
+            e.stopPropagation();
+            var filterMenu = $('.id-filter');
+
+            var buttonPosition = $(this).offset();
+            filterMenu.css({
+                top: buttonPosition.top + $(this).outerHeight() - 30, // 上に30pxずらす
+                left: buttonPosition.left
+            }).toggle();
         });
 
-        // メニュー外クリックでメニューを隠す
-        $(document).on('click', function(e) {
-            if (!$(e.target).closest('.column-options').length && !$(e.target).closest('#columnMenu').length && !$(e.target).closest('.id-options').length) {
-                $('#columnMenu').hide();
-                $('.id-filter').hide(); // IDフィルターを隠す
-            }
+        // IDフィルターのチェックボックス変更
+        $('.id-checkbox').on('change', function () {
+            var selectedIds = $('.id-checkbox:checked').map(function () {
+                return this.value;
+            }).get();
+            var regex = selectedIds.length > 0 ? '^(' + selectedIds.join('|') + ')$' : '';
+            table.column(0).search(regex, true, false).draw();
+        });
+
+        // 全てのIDを選択するチェックボックス
+        $('.id-filter input[type="checkbox"]').first().on('change', function () {
+            $('.id-checkbox').prop('checked', this.checked).change();
+        });
+
+        // メニュー外クリックでメニューを閉じる
+        $(document).on('click', function () {
+            $('#columnMenu').hide();
+            $('.id-filter').hide();
+        });
+
+        // メニュー内クリックは閉じないようにする
+        $('#columnMenu, .id-filter').on('click', function (e) {
+            e.stopPropagation();
         });
     });
 </script>
