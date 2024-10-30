@@ -1,7 +1,7 @@
 # ベースとなるダウンロード先のディレクトリ
-$baseDownloadPath = "C:\Users\q5078\Desktop\class_checker"
+$baseDownloadPath = "C:\Users\USERNAME\Desktop\class_checker"
 
-# 年、zenki/kōki、01-06のリストを定義
+# 年、zenki/kouki、01-06のリストを定義
 $years = 2014..2023
 $terms = @("zenki", "kouki")
 $numbers = 1..6 | ForEach-Object { "{0:D2}" -f $_ } # 01, 02, ..., 06

@@ -8,7 +8,7 @@ app = Flask(__name__, static_url_path="/static")
 YEAR = 2023
 
 columns = ['年度', '学科', '期間', '授業科目名', '授業担当者', '履修者数', '学年', '単位数', '必修',' 合格率',
-            'G(合格)', 'A', 'B', 'C', 'D', 'F', '*(評価不能)', 'GPA', 'GP中央値'
+            'G(合格)', 'A', 'B', 'C', 'D', 'F', '*(評価不能)', 'GPA', 'GP中央値',
             '回答者数', '設問1', '設問2', '設問3', '設問4', '設問5', '設問6', '設問7', '設問8', '設問9','講義コード' ]
 data = []
 txt_data = []
@@ -50,7 +50,7 @@ def setdata1(year,dep,t):
                 continue
             i=0
             grade="None"
-            credit_str="None"
+            credit_str=""
             required="None"
             credit=0
             tmp2=tmp[i+1]
@@ -62,7 +62,7 @@ def setdata1(year,dep,t):
                 required="必修"
                 credit=int(credit_str[1])
             elif credit_str and credit_str[0]=="■":
-                required="選択必修"
+                required="選必"
                 credit=int(credit_str[1])
             elif credit_str:
                 required="選択"
@@ -99,7 +99,7 @@ def setdata2(year,dep,t):
                 continue
             i=0
             grade="None"
-            credit_str="None"
+            credit_str=""
             required="None"
             credit=0
             tmp2=tmp[i+1]
@@ -111,7 +111,7 @@ def setdata2(year,dep,t):
                 required="必修"
                 credit=int(credit_str[1])
             elif credit_str and credit_str[0]=="■":
-                required="選択必修"
+                required="選必"
                 credit=int(credit_str[1])
             elif credit_str:
                 required="選択"
