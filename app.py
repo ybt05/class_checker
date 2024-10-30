@@ -111,12 +111,14 @@ for j in range(2021,2024):
 """
 for j in range(2021,2024):
     setdata1(j,"common",1)
-for j in range(2014,2020):
-    setdata2(j,"common",1)
 for j in range(2020,2024):
     setdata1(j,"common",2)
+"""
+for j in range(2014,2020):
+    setdata2(j,"common",1)
 for j in range(2014,2020):
     setdata2(j,"common",2)
+"""
 
 # ホーム画面
 @app.route("/")
