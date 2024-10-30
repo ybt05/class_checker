@@ -11,6 +11,9 @@
                 <th>授業科目名</th>
                 <th>授業担当者</th>
                 <th>履修者数</th>
+                <th>学年</th>
+                <th>単位数</th>
+                <th>必修</th>
                 <th>合格率</th>
                 <th>G</th>
                 <th>A</th>
@@ -85,12 +88,33 @@
                 </th>
                 <th>
                     <button class="column-options" data-column="6">・・・</button>
+                    <button class="id-options">select</button>
+                    <div class="id-filter" style="display: none;">
+                        <label><input type="checkbox" value="">すべて</label>
+                        {% for item in ["1","2","3","4","1～4","2～4"] %}
+                        <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
+                        {% endfor %}
+                    </div>
                 </th>
                 <th>
                     <button class="column-options" data-column="7">・・・</button>
+                    <button class="id-options">select</button>
+                    <div class="id-filter" style="display: none;">
+                        <label><input type="checkbox" value="">すべて</label>
+                        {% for item in range[1,2,3] %}
+                        <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
+                        {% endfor %}
+                    </div>
                 </th>
                 <th>
                     <button class="column-options" data-column="8">・・・</button>
+                    <button class="id-options">select</button>
+                    <div class="id-filter" style="display: none;">
+                        <label><input type="checkbox" value="">すべて</label>
+                        {% for item in [必修,選択必修,選択] %}
+                        <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
+                        {% endfor %}
+                    </div>
                 </th>
                 <th>
                     <button class="column-options" data-column="9">・・・</button>
@@ -146,6 +170,15 @@
                 <th>
                     <button class="column-options" data-column="26">・・・</button>
                 </th>
+                <th>
+                    <button class="column-options" data-column="27">・・・</button>
+                </th>
+                <th>
+                    <button class="column-options" data-column="28">・・・</button>
+                </th>
+                <th>
+                    <button class="column-options" data-column="29">・・・</button>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -157,6 +190,9 @@
                 <td>{{ item.subject }}</td>
                 <td>{{ item.teacher }}</td>
                 <td>{{ item.student_num }}</td>
+                <td>{{ item.grade }}</td>
+                <td>{{ item.credit }}</td>
+                <td>{{ item.required }}</td>
                 <td>{{ item.passrate }}</td>
                 <td>{{ item.G }}</td>
                 <td>{{ item.A }}</td>
