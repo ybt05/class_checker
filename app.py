@@ -49,13 +49,13 @@ def setdata1(year,dep,t):
             if tmp[0]=='№'or tmp[0]==None or int(tmp[4])<10:
                 continue
             i=0
-            grade=""
-            credit_str=""
-            required=""
-            credit=-1
+            grade="None"
+            credit_str="None"
+            required="None"
+            credit=0
             tmp2=tmp[i+1]
             for k in txt_data:
-                if k[1] == tmp2[0:6]:
+                if k[1] == tmp2[0:6] or k[0] == tmp[i+2]:
                     grade=k[3]
                     credit_str=k[2]
             if credit_str and credit_str[0]=="●":
@@ -98,13 +98,13 @@ def setdata2(year,dep,t):
             if tmp[0]=='№'or tmp[0]==None:
                 continue
             i=0
-            grade=""
-            credit_str=""
-            required=""
+            grade="None"
+            credit_str="None"
+            required="None"
             credit=0
             tmp2=tmp[i+1]
             for k in txt_data:
-                if k[1] == tmp2[0:6]:
+                if k[1] == tmp2[0:6] or k[0] == tmp[i+2]:
                     grade=k[3]
                     credit_str=k[2]
             if credit_str and credit_str[0]=="●":
@@ -200,6 +200,7 @@ def result():
     selected_options = request.form.getlist('options')
     for i in selected_options:
         getData(i)
+    txt_data.clear()
     return render_template("result.html", ServiceName=ServiceName,data=data,columns=columns,YEAR=YEAR)
 
 if __name__ == "__main__":
