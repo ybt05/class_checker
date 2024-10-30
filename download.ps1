@@ -1,5 +1,5 @@
 # ベースとなるダウンロード先のディレクトリ
-$baseDownloadPath = "C:\Users\USERNAME\Desktop\class_checker"
+$baseDownloadPath = "C:\Users\USERNAME\Desktop\class_checker\static\pdf"
 
 # 年、zenki/kouki、01-06のリストを定義
 $years = 2014..2023
