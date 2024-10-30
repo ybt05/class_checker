@@ -1,20 +1,7 @@
 {% extends "layout.html" %}
-
 {% block content %}
-<!-- 列表示/非表示メニューのトグルボタン -->
-<button id="toggleColumnsMenu">列の表示/非表示</button>
 
-<!-- 列表示/非表示メニュー -->
-<div id="columnToggleMenu" style="display: none;">
-    <h4>列の表示/非表示</h4>
-    {% for index in range(columns|length) %}
-    <label>
-        <input type="checkbox" class="column-checkbox" data-column="{{ index }}" checked>
-        {{ columns[index] }}
-    </label>
-    {% endfor %}
-</div>
-<div class="table-container"> <!-- 追加: テーブルを囲む div -->
+<div class="table-container"> <!-- テーブルを囲む div -->
     <table id="dataTable" class="display">
         <thead>
             <tr>
@@ -78,11 +65,11 @@
                 </th>
                 <th>
                     <button class="column-options" data-column="3">・・・</button>
-                    <input type="text" class="age-search" placeholder="" />
+                    <input type="text" class="column-search" placeholder="" />
                 </th>
                 <th>
                     <button class="column-options" data-column="4">・・・</button>
-                    <input type="text" class="age-search" placeholder="" />
+                    <input type="text" class="column-search" placeholder="" />
                 </th>
                 <th>
                     <button class="column-options" data-column="5">・・・</button>
@@ -90,7 +77,7 @@
                     <div class="id-filter" style="display: none;">
                         <label><input type="checkbox" value="">すべて</label>
                         {% for item in range(0,301,10) %}
-                        <label><input type="checkbox" class="id-checkbox student-filter" value="{{ item }}">{{ item
+                        <label><input type="checkbox" class="id-checkbox-student-filter" value="{{ item }}">{{ item
                             }}</label>
                         {% endfor %}
                     </div>
@@ -192,6 +179,40 @@
     </table>
 </div>
 
+<!-- 列表示/非表示メニュー -->
+<div id="columnToggleMenu">
+    <h4>列の表示/非表示</h4>
+    {% for index in range(columns|length) %}
+    <label>
+        <input type="checkbox" class="column-checkbox" data-column="{{ index }}" checked>
+        {{ columns[index] }}
+    </label>
+    {% endfor %}
+</div>
+
+<br><br><br><br><br>
+<main>
+    <p>授業アンケート平均値（満点 5.0）</p>
+    <p>設問１．この授業は、「授業のねらい、到達目標、進め方、使用する教科書・参考書、成績評価方法」について、資料などを用いて説明が適切に行われましたか？</p>
+    <p>【回答】5：適切であった 4：ほぼ適切であった 3：どちらとも言えない 2：あまり適切でなかった 1：まったくなかった</p>
+    <p>設問２．この授業は、シラバス記載内容（途中の変更含む）に沿って進みましたか？</p>
+    <p>【回答】5：進んだ 4：ほぼ進んだ 3：どちらとも言えない 2：あまり進まなかった 1：まったく進まなかった</p>
+    <p>設問３．この授業は、学生の理解度を配慮しながら進められましたか？</p>
+    <p>【回答】5：強くそう思う 4：ややそう思う 3：どちらとも言えない 2：あまりそう思わない 1：まったくそう思わない</p>
+    <p>設問４．この授業は、教員の話し方は明瞭で、わかりやすかったですか？また、教材提示型授業の場合、説明資料はわかりやすかったですか？</p>
+    <p>【回答】5：強くそう思う 4：ややそう思う 3：どちらとも言えない 2：あまりそう思わない 1：まったくそう思わない</p>
+    <p>設問５．この授業は、黒板の使い方、文字の大きさ・見やすさ、映像資料の図や文字の見やすさ、は適切でしたか？</p>
+    <p>【回答】5：適切であった 4：ほぼ適切であった 3：どちらとも言えない 2：あまり適切ではなかった 1：まったく適切ではなかった</p>
+    <p>設問６．この授業の進行度は、内容を理解し到達目標を達成するのに適切でしたか？</p>
+    <p>【回答】5：適切であった 4：ほぼ適切であった 3：どちらとも言えない 2：あまり適切ではなかった 1：まったく適切ではなかった</p>
+    <p>設問７．あなたは現時点で、この授業の到達目標をどの程度達成できたと思いますか？</p>
+    <p>【回答】5：100％～90％ 4：90％未満～80％ 3：80％未満～70％ 2：70％未満～60％ 1：60％未満</p>
+    <p>設問８．この授業１回あたり平均して、予習・復習・レポート作成・課題作成（準備）に何時間かけましたか？</p>
+    <p>【回答】5：3時間以上 4：2時間台 3：1時間台 2：30分～1時間 1：30分未満</p>
+    <p>設問９．総合的に考えて、この授業を受講してよかったと思いますか？</p>
+    <p>【回答】5：強くそう思う 4：ややそう思う 3：どちらとも言えない 2：あまりそう思わない 1：まったくそう思わない</p>
+</main>
+
 <!-- ・・・メニュー -->
 <div id="columnMenu"
     style="display: none; position: absolute; background: white; border: 1px solid #ccc; z-index: 1000; padding: 10px;">
@@ -200,115 +221,165 @@
     <button class="clear-filter">フィルターをクリア</button>
 </div>
 
-<style>
-    .table-container {
-        margin: 20px 0;
-        position: relative;
-        /* 相対位置を設定 */
-    }
-
-    #columnToggleMenu {
-        position: absolute;
-        z-index: 1000;
-        background: white;
-        border: 1px solid #ccc;
-        padding: 10px;
-    }
-
-    #columnToggleMenu h4 {
-        margin: 0;
-    }
-
-    .id-filter {
-        display: none;
-        position: absolute;
-        /* 追加: 絶対位置を設定 */
-        background: white;
-        border: 1px solid #ccc;
-        z-index: 1000;
-        padding: 10px;
-    }
-
-    .id-options {
-        background: #f0f0f0;
-        cursor: pointer;
-    }
-
-    #columnMenu button {
-        display: block;
-        margin: 5px 0;
-        padding: 5px 10px;
-        border: none;
-        background: #f0f0f0;
-        cursor: pointer;
-    }
-
-    #columnMenu button:hover,
-    .id-filter label:hover {
-        background: #e0e0e0;
-    }
-
-    .column-checkbox {
-        margin-right: 5px;
-    }
-</style>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        // Toggle column visibility
-        $('#toggleColumnsMenu').click(function () {
-            $('#columnToggleMenu').toggle();
+        var table = $('#dataTable').DataTable({
+            // DataTablesの設定
+            "searching": true,
+            "ordering": true,
+            "lengthChange": false,
+            "paging": false,
+            "language": {
+                "info": "",
+                "emptyTable": "データがありません",
+                "zeroRecords": "",
+                "infoFiltered": "",
+                "infoEmpty": "",
+                "lengthMenu": ""
+            },
+            "columnDefs": [
+                { "orderable": false, "targets": "_all" }
+            ]
         });
 
-        $('.column-checkbox').change(function () {
+        // 各列のフィルタリング機能
+        $('.column-search').on('input', function () {
+            const input = $(this);
+            const filterValue = input.val().toLowerCase();
+            const columnIndex = input.closest('th').index();
+
+            // DataTablesの検索を利用する
+            table.column(columnIndex).search(filterValue).draw();
+
+            // 文字が空になった場合、該当列のフィルタをリセット
+            if (filterValue === "") {
+                table.column(columnIndex).search('').draw(); // フィルタをリセット
+            }
+        });
+
+        // メニューの設定
+        $('.column-options').on('click', function (e) {
+            e.stopPropagation();
             var columnIndex = $(this).data('column');
-            $('#dataTable th').eq(columnIndex).toggle();
-            $('#dataTable td:nth-child(' + (columnIndex + 1) + ')').toggle();
-        });
+            var menu = $('#columnMenu');
+            var buttonPosition = $(this).offset();
+            menu.css({
+                position: 'fixed',
+                zIndex: 1000,
+                top: buttonPosition.top + $(this).outerHeight(),
+                left: buttonPosition.left
+            }).show().data('columnIndex', columnIndex);
 
-        // Filter by year
-        $('.id-options').click(function () {
-            $(this).siblings('.id-filter').toggle();
-        });
-
-        // Filter logic
-        $('.id-checkbox').change(function () {
-            var selectedValues = [];
-            $('.id-checkbox:checked').each(function () {
-                selectedValues.push($(this).val());
-            });
-
-            $('#dataTable tbody tr').each(function () {
-                var rowYear = $(this).find('td:nth-child(1)').text();
-                if (selectedValues.length === 0 || selectedValues.includes(rowYear)) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
+            menu.off('click').on('click', 'button', function () {
+                switch ($(this).text()) {
+                    case '昇順で並び替え':
+                        table.order([columnIndex, 'asc']).draw();
+                        break;
+                    case '降順で並び替え':
+                        table.order([columnIndex, 'desc']).draw();
+                        break;
+                    case 'フィルターをクリア':
+                        table.search('').draw(); // 全体の検索をクリア
+                        $('.column-search').val(''); // すべての検索ボックスをクリア
+                        $('.id-checkbox').prop('checked', false); // チェックボックスもリセット
+                        $('.id-checkbox-student-filter').prop('checked', false); // チェックボックスもリセット
+                        table.columns().search('').draw(); // すべての列の検索をクリア
+                        break;
                 }
             });
         });
 
-        // すべてのチェックボックスを制御
-        $('.id-filter label input[type="checkbox"]').first().change(function () {
+        // 列の表示/非表示を切り替える
+        $('.column-checkbox').on('change', function () {
+            var column = $(this).data('column');
             var isChecked = $(this).is(':checked');
-            $('.id-filter label input[type="checkbox"]').not(this).prop('checked', isChecked);
-            $('.id-checkbox').change(); // 変更されたことを通知
+            table.column(column).visible(isChecked);
         });
 
-        // Filter by student numbers
-        $('.student-filter').change(function () {
+        // IDフィルターの表示切り替え
+        $('.id-options').on('click', function (e) {
+            e.stopPropagation();
+            var filterMenu = $(this).next('.id-filter');
+            filterMenu.toggle();
+        });
+
+        // メニューボタンのクリックイベントで表示を切り替え
+        $('#toggleColumnsMenu').on('click', function () {
+            $('#columnToggleMenu').toggle();
+        });
+
+        // メニュー外クリックでメニューを閉じる
+        $(document).on('click', function () {
+            $('#columnMenu').hide();
+            $('.id-filter').hide();
+        });
+
+        // メニュー内クリックは閉じないようにする
+        $('#columnMenu, .id-filter').on('click', function (e) {
+            e.stopPropagation();
+        });
+
+        // チェックボックスによるフィルタリング
+        $('.id-checkbox').on('change', function () {
+            var columnIndex = $(this).closest('th').index(); // チェックボックスの列インデックスを取得
+            var checkedValues = $('.id-checkbox:checked').map(function () {
+                return this.value;
+            }).get(); // チェックされた値を取得
+
+            // フィルタリング条件を設定
+            if (checkedValues.length) {
+                table.column(columnIndex).search(checkedValues.join('|'), true, false).draw(); // 正規表現で検索
+            } else {
+                table.column(columnIndex).search('').draw(); // チェックされていない場合は全て表示
+            }
+        });
+
+        // 「すべて」のチェックボックスをクリックしたときのイベント
+        $('.id-filter input[type="checkbox"][value=""]').on('change', function () {
+            var isChecked = $(this).is(':checked');
+            $(this).closest('.id-filter').find('.id-checkbox').prop('checked', isChecked);
+
+            // チェックボックスが全て選択された場合、フィルタをクリア
+            if (isChecked) {
+                table.columns().search('').draw(); // 全ての行を表示
+            } else {
+                // その他のチェックボックスの状態に基づいてフィルタリングを更新
+                $('.id-checkbox').trigger('change'); // すべてのチェックボックスの状態を更新
+            }
+        });
+
+        // 他のチェックボックスがクリックされたとき、「すべて」のチェックボックスを更新
+        $('.id-checkbox').on('change', function () {
+            var allChecked = $(this).closest('.id-filter').find('.id-checkbox').length ===
+                $(this).closest('.id-filter').find('.id-checkbox:checked').length;
+            $(this).closest('.id-filter').find('input[type="checkbox"][value=""]').prop('checked', allChecked);
+        });
+
+        // チェックボックスによるフィルタリング
+        $('.id-checkbox-student-filter').change(function () {
             var selectedRanges = [];
-            $('.student-filter:checked').each(function () {
-                selectedRanges.push($(this).val());
+            var showAll = $('.id-checkbox-student-filter:checked[value=""]').length > 0; // 「すべて」が選択されているか確認
+
+            // 「すべて」が選択されている場合、すべての行を表示
+            if (showAll) {
+                $('#dataTable tbody tr').show(); // すべての行を表示
+                $('.id-checkbox-student-filter').not(':checked').prop('checked', false); // 他のチェックボックスを非選択に
+                return; // 他の処理は不要
+            }
+
+            // 選択された範囲を収集
+            $('.id-checkbox-student-filter:checked').each(function () {
+                selectedRanges.push(parseInt($(this).val()));
             });
 
             $('#dataTable tbody tr').each(function () {
                 var studentNum = parseInt($(this).find('td:nth-child(6)').text());
                 var showRow = selectedRanges.some(function (range) {
-                    return studentNum >= range && studentNum < (parseInt(range) + 10);
+                    return studentNum >= range && studentNum < (range + 10); // 10の範囲でチェック
                 });
-                if (selectedRanges.length === 0 || showRow) {
+
+                // 行の表示/非表示を決定
+                if (showRow) {
                     $(this).show();
                 } else {
                     $(this).hide();
@@ -316,73 +387,22 @@
             });
         });
 
-        // Column menu functionality
-        $('.column-options').click(function (e) {
-            e.stopPropagation();
-            var columnIndex = $(this).data('column');
-            var offset = $(this).offset();
-            $('#columnMenu').css({
-                top: offset.top + $(this).outerHeight(),
-                left: offset.left
-            }).toggle();
-        });
-
-        $(document).click(function () {
-            $('#columnMenu').hide();
-        });
-
-        // Sort functions
-        $('.sort-asc').click(function () {
-            sortTable(true);
-        });
-
-        $('.sort-desc').click(function () {
-            sortTable(false);
-        });
-
-        function sortTable(ascending) {
-            var rows = $('#dataTable tbody tr').get();
-            rows.sort(function (a, b) {
-                var keyA = parseInt($(a).children('td:nth-child(6)').text());
-                var keyB = parseInt($(b).children('td:nth-child(6)').text());
-                return ascending ? keyA - keyB : keyB - keyA;
-            });
-            $.each(rows, function (index, row) {
-                $('#dataTable tbody').append(row);
-            });
-        }
-
-        // Clear filter function
-        $('.clear-filter').click(function () {
-            $('.id-checkbox, .student-filter').prop('checked', false);
-            $('#dataTable tbody tr').show();
-        });
-    });
-
-    $(document).ready(function () {
-        // チェックボックスの状態に基づいてフィルタリング
-        $('.id-checkbox').change(function () {
-            var selectedValues = [];
-            $('.id-checkbox:not(:first):checked').each(function () { // 「すべて」を除外
-                selectedValues.push($(this).val());
-            });
-
-            $('#dataTable tbody tr').each(function () {
-                var rowYear = $(this).find('td:nth-child(1)').text();
-                if (selectedValues.length === 0 || selectedValues.includes(rowYear)) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        });
-
-        // 「すべて」チェックボックスの制御
-        $('.id-filter label input[type="checkbox"]').first().change(function () {
+        // 「すべて」のチェックボックスをクリックしたときのイベント
+        $('.id-filter input[type="checkbox"][value=""]').on('change', function () {
             var isChecked = $(this).is(':checked');
-            $('.id-filter label input[type="checkbox"]').not(this).prop('checked', isChecked);
-            $('.id-checkbox').trigger('change'); // 変更を通知
+            // id-checkbox-student-filterの全てのチェックボックスをチェックまたはチェック解除
+            $(this).closest('.id-filter').find('.id-checkbox-student-filter').prop('checked', isChecked);
+
+            // チェックボックスの状態に基づいてフィルタリングを更新
+            if (isChecked) {
+                // チェックされた場合、全ての行を表示
+                $('#dataTable tbody tr').show(); // すべての行を表示
+            } else {
+                // チェックが外れた場合、他のチェックボックスの状態に基づいてフィルタリングを実行
+                $('.id-checkbox-student-filter:checked').trigger('change'); // チェックされているものをフィルタリング
+            }
         });
     });
 </script>
+
 {% endblock %}

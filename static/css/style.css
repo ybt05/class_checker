@@ -1,15 +1,113 @@
 @charset "utf-8";
 
+main {
+    padding-left: 20px;
+}
+
 body {
-    padding-top: 80px;
+    padding-top: 40px;
     color: #000000;
     font-family: "system-ui";
     background-color: #ffffff;
 }
 
-main.support {
-    padding-left: 80px;
-    padding-right: 40px;
-    font-size: 20px;
+.table-container {
+    margin: 20px 0;
+    position: relative;
+    /* 相対位置を設定 */
+    overflow: auto;
+    /* スクロールバーを表示 */
+    height: 780px;
+    /* 高さを設定（必要に応じて調整） */
 }
 
+#columnMenu,
+.id-filter {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.column-toggle {
+    margin: 20px;
+    /* 上下の余白 */
+    background: #f8f9fa;
+    /* 背景色 */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.column-toggle h4 {
+    margin-bottom: 10px;
+}
+
+.column-toggle label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#columnToggleMenu {
+    position: absolute;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+#columnToggleMenu h4 {
+    margin: 0;
+}
+
+.id-filter {
+    display: none;
+    position: absolute;
+    /* 追加: 絶対位置を設定 */
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    padding: 10px;
+}
+
+.id-options {
+    background: #f0f0f0;
+    cursor: pointer;
+}
+
+#columnMenu button,
+.id-filter label {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    padding: 8px;
+    border: none;
+    background: #f8f9fa;
+    cursor: pointer;
+}
+
+#columnMenu button:hover,
+.id-filter label:hover {
+    background: #e2e6ea;
+}
+
+#columnMenu button:hover,
+.id-filter label:hover {
+    background: #e0e0e0;
+}
+
+.column-checkbox {
+    margin-right: 5px;
+}
+
+th {
+    background-color: #f4f4f4;
+    /* ヘッダーの背景色 */
+    position: relative;
+    /* ポジションを相対的に */
+    white-space: nowrap;
+    /* 改行を防ぐ */
+}
+
+.dataTables_filter {
+    position: relative;
+    right: 88%;
+}

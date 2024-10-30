@@ -1,15 +1,14 @@
 from flask import Flask, render_template
 import pdfplumber
-import re
 import threading, webbrowser
 
-ServiceName = "ClassChecker"
+ServiceName = "OIT ClassChecker"
 app = Flask(__name__, static_url_path="/static")
 
 columns = ['年度', '学科', '期間', '授業科目名', '授業担当者', '履修者数', 
             '回答者数', '設問1', '設問2', '設問3', '設問4', '設問5', 
-            '設問6', '設問7', '設問8', '設問9', 'G', 'A', 'B', 
-            'C', 'D', 'F', '*', '合格率', 'GPA', 'GP中央値']
+            '設問6', '設問7', '設問8', '設問9', 'G(合格)', 'A', 'B', 
+            'C', 'D', 'F', '*(評価不能)', '合格率', 'GPA', 'GP中央値']
 
 data = []
 def setdata1(year,dep,t):
@@ -70,10 +69,11 @@ def setdata2(year,dep,t):
                         "passrate":tmp[i+22],"GPA":None,"GPM":None})
 for j in range(2021,2024):
     setdata1(j,"IN",1)
-for j in range(2014,2020):
-    setdata2(j,"IN",1)
 for j in range(2020,2024):
     setdata1(j,"IN",2)
+"""
+for j in range(2014,2020):
+    setdata2(j,"IN",1)
 for j in range(2014,2020):
     setdata2(j,"IN",2)
 
@@ -108,7 +108,7 @@ for j in range(2021,2024):
     setdata1(j,"ID",1)
 for j in range(2021,2024):
     setdata1(j,"ID",2)
-
+"""
 for j in range(2021,2024):
     setdata1(j,"common",1)
 for j in range(2014,2020):
@@ -122,11 +122,6 @@ for j in range(2014,2020):
 @app.route("/")
 def index():
     return render_template("index.html", ServiceName=ServiceName,data=data,columns=columns)
-
-# サポート
-@app.route("/support")
-def support():
-    return render_template("support.html", ServiceName=ServiceName)
 
 if __name__ == "__main__":
     #threading.Timer(1.0, lambda: webbrowser.open('http://localhost:5000') ).start()
