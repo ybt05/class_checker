@@ -111,3 +111,37 @@ th {
     position: relative;
     right: 88%;
 }
+
+table {
+    table-layout: fixed; /* 幅を固定にする */
+    width: auto; /* テーブル全体の幅を自動に設定 */
+    max-width: 100%; /* 最大幅を100%に設定 */
+}
+
+/* 各列に幅を指定 */
+th:nth-child(1), td:nth-child(1) { width: 100px; } /* 年度 */
+th:nth-child(2), td:nth-child(2) { width: 100px; } /* 学科 */
+th:nth-child(3), td:nth-child(3) { width: 80px; }  /* 期間 */
+th:nth-child(4), td:nth-child(4) { width: 200px; } /* 授業科目名 */
+th:nth-child(5), td:nth-child(5) { width: 200px; } /* 授業担当者 */
+th:nth-child(6), td:nth-child(6) { width: 100px; } /* 履修者数 */
+th:nth-child(7), td:nth-child(7) { width: 100px; } /* 回答者数 */
+th:nth-child(8), td:nth-child(8) { width: 80px; }  /* 設問1 */
+th:nth-child(9), td:nth-child(9) { width: 80px; }  /* 設問2 */
+th:nth-child(10), td:nth-child(10) { width: 80px; } /* 設問3 */
+th:nth-child(11), td:nth-child(11) { width: 80px; } /* 設問4 */
+th:nth-child(12), td:nth-child(12) { width: 80px; } /* 設問5 */
+th:nth-child(13), td:nth-child(13) { width: 80px; } /* 設問6 */
+th:nth-child(14), td:nth-child(14) { width: 80px; } /* 設問7 */
+th:nth-child(15), td:nth-child(15) { width: 80px; } /* 設問8 */
+th:nth-child(16), td:nth-child(16) { width: 80px; } /* 設問9 */
+th:nth-child(17), td:nth-child(17) { width: 50px; } /* G */
+th:nth-child(18), td:nth-child(18) { width: 50px; } /* A */
+th:nth-child(19), td:nth-child(19) { width: 50px; } /* B */
+th:nth-child(20), td:nth-child(20) { width: 50px; } /* C */
+th:nth-child(21), td:nth-child(21) { width: 50px; } /* D */
+th:nth-child(22), td:nth-child(22) { width: 50px; } /* F */
+th:nth-child(23), td:nth-child(23) { width: 50px; } /* * */
+th:nth-child(24), td:nth-child(24) { width: 80px; } /* 合格率 */
+th:nth-child(25), td:nth-child(25) { width: 50px; } /* GPA */
+th:nth-child(26), td:nth-child(26) { width: 80px; } /* GP中央値 */
