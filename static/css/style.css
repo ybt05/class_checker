@@ -145,3 +145,4 @@ th:nth-child(23), td:nth-child(23) { width: 50px; } /* * */
 th:nth-child(24), td:nth-child(24) { width: 80px; } /* 合格率 */
 th:nth-child(25), td:nth-child(25) { width: 50px; } /* GPA */
 th:nth-child(26), td:nth-child(26) { width: 80px; } /* GP中央値 */
+th:nth-child(27), td:nth-child(27) { width: 80px; } /* GP中央値 */

@@ -1,408 +1,52 @@
 {% extends "layout.html" %}
 {% block content %}
+<main class="index">
+    <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
+        <h1 style="color:#333; text-align: center; margin-bottom: 20px;">{{ServiceName}}</h1>
+        <h2 style="color: #666; text-align: center; font-size: 18px; margin-bottom: 30px;">読み込むデータを選択してください</h2>
+        
+        <form action="/result" method="post" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px;">
+            <div style="text-align: center;">
+                <input type="checkbox" name="options" value="common1" id="common1" style="transform: scale(1.3);">
+                <label for="common1" style="display: block; margin-top: 5px;">共通科目(2020-{{ YEAR }})</label>
+                <input type="checkbox" name="options" value="common2" id="common2" style="transform: scale(1.3); margin-top: 10px;">
+                <label for="common2" style="display: block; margin-top: 5px;">共通科目(2014-2019)</label>
+            </div>
+            <div style="text-align: center;">
+                <input type="checkbox" name="options" value="IS1" id="IS1" style="transform: scale(1.3);">
+                <label for="IS1" style="display: block; margin-top: 5px;">IS(2020-{{ YEAR }})</label>
+                <input type="checkbox" name="options" value="IS2" id="IS2" style="transform: scale(1.3); margin-top: 10px;">
+                <label for="IS2" style="display: block; margin-top: 5px;">IS(2014-2019)</label>
+            </div>
+            <div style="text-align: center;">
+                <input type="checkbox" name="options" value="IM1" id="IM1" style="transform: scale(1.3);">
+                <label for="IM1" style="display: block; margin-top: 5px;">IM(2020-{{ YEAR }})</label>
+                <input type="checkbox" name="options" value="IM2" id="IM2" style="transform: scale(1.3); margin-top: 10px;">
+                <label for="IM2" style="display: block; margin-top: 5px;">IM(2014-2019)</label>
+            </div>
+            <div style="text-align: center;">
+                <input type="checkbox" name="options" value="IC1" id="IC1" style="transform: scale(1.3);">
+                <label for="IC1" style="display: block; margin-top: 5px;">IC(2020-{{ YEAR }})</label>
+                <input type="checkbox" name="options" value="IC2" id="IC2" style="transform: scale(1.3); margin-top: 10px;">
+                <label for="IC2" style="display: block; margin-top: 5px;">IC(2014-2019)</label>
+            </div>
+            <div style="text-align: center;">
+                <input type="checkbox" name="options" value="IN1" id="IN1" style="transform: scale(1.3);">
+                <label for="IN1" style="display: block; margin-top: 5px;">IN(2020-{{ YEAR }})</label>
+                <input type="checkbox" name="options" value="IN2" id="IN2" style="transform: scale(1.3); margin-top: 10px;">
+                <label for="IN2" style="display: block; margin-top: 5px;">IN(2014-2019)</label>
+            </div>
+            <div style="text-align: center;">
+                <input type="checkbox" name="options" value="ID1" id="ID1" style="transform: scale(1.3);">
+                <label for="ID1" style="display: block; margin-top: 5px;">ID(2021-{{ YEAR }})</label>
+                <input type="checkbox" name="options" value="IR1" id="IR1" style="transform: scale(1.3); margin-top: 10px;">
+                <label for="IR1" style="display: block; margin-top: 5px;">IR(2025-{{ YEAR }})</label>
+            </div>
 
-<div class="table-container"> <!-- テーブルを囲む div -->
-    <table id="dataTable" class="display">
-        <thead>
-            <tr>
-                <th>年度</th>
-                <th>学科</th>
-                <th>期間</th>
-                <th>授業科目名</th>
-                <th>授業担当者</th>
-                <th>履修者数</th>
-                <th>回答者数</th>
-                <th>設問1</th>
-                <th>設問2</th>
-                <th>設問3</th>
-                <th>設問4</th>
-                <th>設問5</th>
-                <th>設問6</th>
-                <th>設問7</th>
-                <th>設問8</th>
-                <th>設問9</th>
-                <th>G</th>
-                <th>A</th>
-                <th>B</th>
-                <th>C</th>
-                <th>D</th>
-                <th>F</th>
-                <th>*</th>
-                <th>合格率</th>
-                <th>GPA</th>
-                <th>GP中央値</th>
-            </tr>
-            <tr>
-                <th>
-                    <button class="column-options" data-column="0">・・・</button>
-                    <button class="id-options">select</button>
-                    <div class="id-filter" style="display: none;">
-                        <label><input type="checkbox" value="">すべて</label>
-                        {% for item in range(2014,2024) %}
-                        <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
-                        {% endfor %}
-                    </div>
-                </th>
-                <th>
-                    <button class="column-options" data-column="1">・・・</button>
-                    <button class="id-options">select</button>
-                    <div class="id-filter" style="display: none;">
-                        <label><input type="checkbox" value="">すべて</label>
-                        {% for item in ["IC","ID","IM","IN","IS","common"] %}
-                        <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
-                        {% endfor %}
-                    </div>
-                </th>
-                <th>
-                    <button class="column-options" data-column="2">・・・</button>
-                    <button class="id-options">select</button>
-                    <div class="id-filter" style="display: none;">
-                        <label><input type="checkbox" value="">すべて</label>
-                        {% for item in ["前期","後期"] %}
-                        <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
-                        {% endfor %}
-                    </div>
-                </th>
-                <th>
-                    <button class="column-options" data-column="3">・・・</button>
-                    <input type="text" class="column-search" placeholder="" />
-                </th>
-                <th>
-                    <button class="column-options" data-column="4">・・・</button>
-                    <input type="text" class="column-search" placeholder="" />
-                </th>
-                <th>
-                    <button class="column-options" data-column="5">・・・</button>
-                    <button class="id-options">select</button>
-                    <div class="id-filter" style="display: none;">
-                        <label><input type="checkbox" value="">すべて</label>
-                        {% for item in range(0,301,10) %}
-                        <label><input type="checkbox" class="id-checkbox-student-filter" value="{{ item }}">{{ item
-                            }}</label>
-                        {% endfor %}
-                    </div>
-                </th>
-                <th>
-                    <button class="column-options" data-column="6">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="7">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="8">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="9">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="10">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="11">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="12">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="13">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="14">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="15">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="16">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="17">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="18">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="19">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="20">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="21">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="22">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="23">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="24">・・・</button>
-                </th>
-                <th>
-                    <button class="column-options" data-column="25">・・・</button>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in data %}
-            <tr>
-                <td>{{ item.year }}</td>
-                <td>{{ item.department }}</td>
-                <td>{{ item.term }}</td>
-                <td>{{ item.subject }}</td>
-                <td>{{ item.teacher }}</td>
-                <td>{{ item.student_num }}</td>
-                <td>{{ item.respondent_num }}</td>
-                <td>{{ item.question1 }}</td>
-                <td>{{ item.question2 }}</td>
-                <td>{{ item.question3 }}</td>
-                <td>{{ item.question4 }}</td>
-                <td>{{ item.question5 }}</td>
-                <td>{{ item.question6 }}</td>
-                <td>{{ item.question7 }}</td>
-                <td>{{ item.question8 }}</td>
-                <td>{{ item.question9 }}</td>
-                <td>{{ item.G }}</td>
-                <td>{{ item.A }}</td>
-                <td>{{ item.B }}</td>
-                <td>{{ item.C }}</td>
-                <td>{{ item.D }}</td>
-                <td>{{ item.F }}</td>
-                <td>{{ item.X }}</td>
-                <td>{{ item.passrate }}</td>
-                <td>{{ item.GPA }}</td>
-                <td>{{ item.GPM }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-<!-- 列表示/非表示メニュー -->
-<div id="columnToggleMenu">
-    <h4>列の表示/非表示</h4>
-    {% for index in range(columns|length) %}
-    <label>
-        <input type="checkbox" class="column-checkbox" data-column="{{ index }}" checked>
-        {{ columns[index] }}
-    </label>
-    {% endfor %}
-</div>
-
-<br><br><br><br><br>
-<main>
-    <p>授業アンケート平均値（満点 5.0）</p>
-    <p>設問１．この授業は、「授業のねらい、到達目標、進め方、使用する教科書・参考書、成績評価方法」について、資料などを用いて説明が適切に行われましたか？</p>
-    <p>【回答】5：適切であった 4：ほぼ適切であった 3：どちらとも言えない 2：あまり適切でなかった 1：まったくなかった</p>
-    <p>設問２．この授業は、シラバス記載内容（途中の変更含む）に沿って進みましたか？</p>
-    <p>【回答】5：進んだ 4：ほぼ進んだ 3：どちらとも言えない 2：あまり進まなかった 1：まったく進まなかった</p>
-    <p>設問３．この授業は、学生の理解度を配慮しながら進められましたか？</p>
-    <p>【回答】5：強くそう思う 4：ややそう思う 3：どちらとも言えない 2：あまりそう思わない 1：まったくそう思わない</p>
-    <p>設問４．この授業は、教員の話し方は明瞭で、わかりやすかったですか？また、教材提示型授業の場合、説明資料はわかりやすかったですか？</p>
-    <p>【回答】5：強くそう思う 4：ややそう思う 3：どちらとも言えない 2：あまりそう思わない 1：まったくそう思わない</p>
-    <p>設問５．この授業は、黒板の使い方、文字の大きさ・見やすさ、映像資料の図や文字の見やすさ、は適切でしたか？</p>
-    <p>【回答】5：適切であった 4：ほぼ適切であった 3：どちらとも言えない 2：あまり適切ではなかった 1：まったく適切ではなかった</p>
-    <p>設問６．この授業の進行度は、内容を理解し到達目標を達成するのに適切でしたか？</p>
-    <p>【回答】5：適切であった 4：ほぼ適切であった 3：どちらとも言えない 2：あまり適切ではなかった 1：まったく適切ではなかった</p>
-    <p>設問７．あなたは現時点で、この授業の到達目標をどの程度達成できたと思いますか？</p>
-    <p>【回答】5：100％～90％ 4：90％未満～80％ 3：80％未満～70％ 2：70％未満～60％ 1：60％未満</p>
-    <p>設問８．この授業１回あたり平均して、予習・復習・レポート作成・課題作成（準備）に何時間かけましたか？</p>
-    <p>【回答】5：3時間以上 4：2時間台 3：1時間台 2：30分～1時間 1：30分未満</p>
-    <p>設問９．総合的に考えて、この授業を受講してよかったと思いますか？</p>
-    <p>【回答】5：強くそう思う 4：ややそう思う 3：どちらとも言えない 2：あまりそう思わない 1：まったくそう思わない</p>
+            <button type="submit" style="grid-column: span 6; padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 20px;">
+                読み込み開始
+            </button>
+        </form>
+    </div>
 </main>
-
-<!-- ・・・メニュー -->
-<div id="columnMenu"
-    style="display: none; position: absolute; background: white; border: 1px solid #ccc; z-index: 1000; padding: 10px;">
-    <button class="sort-asc">昇順で並び替え</button>
-    <button class="sort-desc">降順で並び替え</button>
-    <button class="clear-filter">フィルターをクリア</button>
-</div>
-
-<script>
-    $(document).ready(function () {
-        var table = $('#dataTable').DataTable({
-            // DataTablesの設定
-            "searching": true,
-            "ordering": true,
-            "lengthChange": false,
-            "paging": false,
-            "language": {
-                "info": "",
-                "emptyTable": "データがありません",
-                "zeroRecords": "",
-                "infoFiltered": "",
-                "infoEmpty": "",
-                "lengthMenu": ""
-            },
-            "columnDefs": [
-                { "orderable": false, "targets": "_all" }
-            ]
-        });
-
-        // 各列のフィルタリング機能
-        $('.column-search').on('input', function () {
-            const input = $(this);
-            const filterValue = input.val().toLowerCase();
-            const columnIndex = input.closest('th').index();
-
-            // DataTablesの検索を利用する
-            table.column(columnIndex).search(filterValue).draw();
-
-            // 文字が空になった場合、該当列のフィルタをリセット
-            if (filterValue === "") {
-                table.column(columnIndex).search('').draw(); // フィルタをリセット
-            }
-        });
-
-        // メニューの設定
-        $('.column-options').on('click', function (e) {
-            e.stopPropagation();
-            var columnIndex = $(this).data('column');
-            var menu = $('#columnMenu');
-            var buttonPosition = $(this).offset();
-            menu.css({
-                position: 'fixed',
-                zIndex: 1000,
-                top: buttonPosition.top + $(this).outerHeight(),
-                left: buttonPosition.left
-            }).show().data('columnIndex', columnIndex);
-
-            menu.off('click').on('click', 'button', function () {
-                switch ($(this).text()) {
-                    case '昇順で並び替え':
-                        table.order([columnIndex, 'asc']).draw();
-                        break;
-                    case '降順で並び替え':
-                        table.order([columnIndex, 'desc']).draw();
-                        break;
-                    case 'フィルターをクリア':
-                        table.search('').draw(); // 全体の検索をクリア
-                        $('.column-search').val(''); // すべての検索ボックスをクリア
-                        $('.id-checkbox').prop('checked', false); // チェックボックスもリセット
-                        $('.id-checkbox-student-filter').prop('checked', false); // チェックボックスもリセット
-                        table.columns().search('').draw(); // すべての列の検索をクリア
-                        break;
-                }
-            });
-        });
-
-        // 列の表示/非表示を切り替える
-        $('.column-checkbox').on('change', function () {
-            var column = $(this).data('column');
-            var isChecked = $(this).is(':checked');
-            table.column(column).visible(isChecked);
-        });
-
-        // IDフィルターの表示切り替え
-        $('.id-options').on('click', function (e) {
-            e.stopPropagation();
-            var filterMenu = $(this).next('.id-filter');
-            filterMenu.toggle();
-        });
-
-        // メニューボタンのクリックイベントで表示を切り替え
-        $('#toggleColumnsMenu').on('click', function () {
-            $('#columnToggleMenu').toggle();
-        });
-
-        // メニュー外クリックでメニューを閉じる
-        $(document).on('click', function () {
-            $('#columnMenu').hide();
-            $('.id-filter').hide();
-        });
-
-        // メニュー内クリックは閉じないようにする
-        $('#columnMenu, .id-filter').on('click', function (e) {
-            e.stopPropagation();
-        });
-
-        // チェックボックスによるフィルタリング
-        $('.id-checkbox').on('change', function () {
-            var columnIndex = $(this).closest('th').index(); // チェックボックスの列インデックスを取得
-            var checkedValues = $('.id-checkbox:checked').map(function () {
-                return this.value;
-            }).get(); // チェックされた値を取得
-
-            // フィルタリング条件を設定
-            if (checkedValues.length) {
-                table.column(columnIndex).search(checkedValues.join('|'), true, false).draw(); // 正規表現で検索
-            } else {
-                table.column(columnIndex).search('').draw(); // チェックされていない場合は全て表示
-            }
-        });
-
-        // 「すべて」のチェックボックスをクリックしたときのイベント
-        $('.id-filter input[type="checkbox"][value=""]').on('change', function () {
-            var isChecked = $(this).is(':checked');
-            $(this).closest('.id-filter').find('.id-checkbox').prop('checked', isChecked);
-
-            // チェックボックスが全て選択された場合、フィルタをクリア
-            if (isChecked) {
-                table.columns().search('').draw(); // 全ての行を表示
-            } else {
-                // その他のチェックボックスの状態に基づいてフィルタリングを更新
-                $('.id-checkbox').trigger('change'); // すべてのチェックボックスの状態を更新
-            }
-        });
-
-        // 他のチェックボックスがクリックされたとき、「すべて」のチェックボックスを更新
-        $('.id-checkbox').on('change', function () {
-            var allChecked = $(this).closest('.id-filter').find('.id-checkbox').length ===
-                $(this).closest('.id-filter').find('.id-checkbox:checked').length;
-            $(this).closest('.id-filter').find('input[type="checkbox"][value=""]').prop('checked', allChecked);
-        });
-
-        // チェックボックスによるフィルタリング
-        $('.id-checkbox-student-filter').change(function () {
-            var selectedRanges = [];
-            var showAll = $('.id-checkbox-student-filter:checked[value=""]').length > 0; // 「すべて」が選択されているか確認
-
-            // 「すべて」が選択されている場合、すべての行を表示
-            if (showAll) {
-                $('#dataTable tbody tr').show(); // すべての行を表示
-                $('.id-checkbox-student-filter').not(':checked').prop('checked', false); // 他のチェックボックスを非選択に
-                return; // 他の処理は不要
-            }
-
-            // 選択された範囲を収集
-            $('.id-checkbox-student-filter:checked').each(function () {
-                selectedRanges.push(parseInt($(this).val()));
-            });
-
-            $('#dataTable tbody tr').each(function () {
-                var studentNum = parseInt($(this).find('td:nth-child(6)').text());
-                var showRow = selectedRanges.some(function (range) {
-                    return studentNum >= range && studentNum < (range + 10); // 10の範囲でチェック
-                });
-
-                // 行の表示/非表示を決定
-                if (showRow) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        });
-
-        // 「すべて」のチェックボックスをクリックしたときのイベント
-        $('.id-filter input[type="checkbox"][value=""]').on('change', function () {
-            var isChecked = $(this).is(':checked');
-            // id-checkbox-student-filterの全てのチェックボックスをチェックまたはチェック解除
-            $(this).closest('.id-filter').find('.id-checkbox-student-filter').prop('checked', isChecked);
-
-            // チェックボックスの状態に基づいてフィルタリングを更新
-            if (isChecked) {
-                // チェックされた場合、全ての行を表示
-                $('#dataTable tbody tr').show(); // すべての行を表示
-            } else {
-                // チェックが外れた場合、他のチェックボックスの状態に基づいてフィルタリングを実行
-                $('.id-checkbox-student-filter:checked').trigger('change'); // チェックされているものをフィルタリング
-            }
-        });
-    });
-</script>
-
 {% endblock %}
