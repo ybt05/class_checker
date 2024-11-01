@@ -2,10 +2,10 @@
 
 ## ダウンロード方法
 
-c1-byod上で以下のコマンドを実行するとダウンロードできる．フォルダは好きなところで良いが，ここでは「```~/```」に展開するとする．
+c1-byod上で以下のコマンドを実行するとダウンロードできる.
 
 ``` sh
-cd ~/
+cd
 git clone https://github.com/ybt05/class_checker.git
 chmod -R 755 class_checker
 cd class_checker/
