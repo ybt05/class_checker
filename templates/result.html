@@ -35,6 +35,7 @@
                 <th>設問8</th>
                 <th>設問9</th>
                 <th>講義コード</th>
+                <th> </th>
             </tr>
             <tr>
                 <th>
@@ -101,7 +102,7 @@
                     <button class="id-options">select</button>
                     <div class="id-filter" style="display: none;">
                         <label><input type="checkbox" value="">すべて</label>
-                        {% for item in range["1","2","3"] %}
+                        {% for item in ["1","2","3"] %}
                         <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
                         {% endfor %}
                     </div>
@@ -179,6 +180,9 @@
                 <th>
                     <button class="column-options" data-column="29">・・・</button>
                 </th>
+                <th>
+
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -214,6 +218,7 @@
                 <td>{{ item.question8 }}</td>
                 <td>{{ item.question9 }}</td>
                 <td>{{ item.code }}</td>
+                <td> </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -324,6 +329,7 @@
                         $('.column-search').val(''); // すべての検索ボックスをクリア
                         $('.id-checkbox').prop('checked', false); // チェックボックスもリセット
                         $('.id-checkbox-student-filter').prop('checked', false); // チェックボックスもリセット
+                        $('#dataTable tbody tr').show(); // すべての行を表示
                         table.columns().search('').draw(); // すべての列の検索をクリア
                         break;
                 }

@@ -148,4 +148,5 @@ th:nth-child(26), td:nth-child(26) { width: 50px; }
 th:nth-child(27), td:nth-child(27) { width: 50px; } 
 th:nth-child(28), td:nth-child(28) { width: 50px; } 
 th:nth-child(29), td:nth-child(29) { width: 50px; } 
-th:nth-child(30), td:nth-child(30) { width: 120px; } 
+th:nth-child(30), td:nth-child(30) { width: 80px; } 
+th:nth-child(31), td:nth-child(30) { width: 50px; } /* 空白 */
