@@ -1,4 +1,4 @@
-#OIT Class Checker
+# OIT Class Checker
 
 ## ダウンロード方法
 
