@@ -1,6 +1,3 @@
-# ベースとなるダウンロード先のディレクトリ
-baseDownloadPath="/home/USERNAME/Desktop/class_checker/static/pdf"
-
 # 年、zenki/kouki、01-06のリストを定義
 years=$(seq 2014 2023)
 terms=("zenki" "kouki")
@@ -9,7 +6,7 @@ numbers=$(seq -w 01 06) # 01, 02, ..., 06
 # 各組み合わせに対してURLを生成し、ファイルをダウンロード
 for year in $years; do
     # 年度ごとのディレクトリを作成
-    downloadPath="$baseDownloadPath/$year"
+    downloadPath="./static/pdf/$year"
     mkdir -p "$downloadPath"
 
     for term in "${terms[@]}"; do
@@ -37,17 +34,14 @@ declare -A renameMap=(
     ["06,zenki"]="ID1.pdf" ["06,kouki"]="ID2.pdf"
 )
 
-# ベースとなるダウンロード先のディレクトリ
-baseDownloadPath="/home/USERNAME/Desktop/class_checker"
-
-# 2014年から2023年についてファイル名をリネーム
+# 2014年からファイル名をリネーム
 for year in $years; do
     for number in $numbers; do
         for term in "${terms[@]}"; do
-            originalFileName="$baseDownloadPath/$year/info-$year-$term-$number.pdf"
+            originalFileName="./static/pdf/$year/info-$year-$term-$number.pdf"
             if [[ -f "$originalFileName" ]]; then
                 newFileName="${renameMap["$number,$term"]}"
-                newFilePath="$baseDownloadPath/$year/$newFileName"
+                newFilePath="./static/pdf/$year/$newFileName"
 
                 # ファイル名をリネーム
                 mv "$originalFileName" "$newFilePath"

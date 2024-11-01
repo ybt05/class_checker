@@ -204,6 +204,6 @@ def result():
     return render_template("result.html", ServiceName=ServiceName,data=data,columns=columns,YEAR=YEAR)
 
 if __name__ == "__main__":
-    #threading.Timer(1.0, lambda: webbrowser.open('http://localhost:5000') ).start()
-    #app.run(debug=False)
-    app.run(debug=True)
+    threading.Timer(1.0, lambda: webbrowser.open('http://localhost:5000') ).start()
+    app.run(debug=False)
+    #app.run(debug=True)
