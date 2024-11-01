@@ -3,6 +3,16 @@ years=$(seq 2014 2023)
 terms=("zenki" "kouki")
 numbers=$(seq -w 01 06) # 01, 02, ..., 06
 
+# リネームのマッピングを定義
+declare -A renameMap=(
+    ["01,zenki"]="common1.pdf" ["01,kouki"]="common2.pdf"
+    ["02,zenki"]="IC1.pdf" ["02,kouki"]="IC2.pdf"
+    ["03,zenki"]="IS1.pdf" ["03,kouki"]="IS2.pdf"
+    ["04,zenki"]="IM1.pdf" ["04,kouki"]="IM2.pdf"
+    ["05,zenki"]="IN1.pdf" ["05,kouki"]="IN2.pdf"
+    ["06,zenki"]="ID1.pdf" ["06,kouki"]="ID2.pdf"
+)
+
 # 各組み合わせに対してURLを生成し、ファイルをダウンロード
 for year in $years; do
     # 年度ごとのディレクトリを作成
@@ -23,16 +33,6 @@ for year in $years; do
         done
     done
 done
-
-# リネームのマッピングを定義
-declare -A renameMap=(
-    ["01,zenki"]="common1.pdf" ["01,kouki"]="common2.pdf"
-    ["02,zenki"]="IC1.pdf" ["02,kouki"]="IC2.pdf"
-    ["03,zenki"]="IS1.pdf" ["03,kouki"]="IS2.pdf"
-    ["04,zenki"]="IM1.pdf" ["04,kouki"]="IM2.pdf"
-    ["05,zenki"]="IN1.pdf" ["05,kouki"]="IN2.pdf"
-    ["06,zenki"]="ID1.pdf" ["06,kouki"]="ID2.pdf"
-)
 
 # 2014年からファイル名をリネーム
 for year in $years; do
