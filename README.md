@@ -18,23 +18,23 @@ sh download.sh
 ``` file
   📁class_checker           // 作成したclass_checkerフォルダ
    ┗ 📁static               // 
-      ┗ 📁css               // cssファイルを入れるフォルダ
+      ┣ 📁css               // cssファイルを入れるフォルダ
       ┗ 📁pdf               // pdfファイルを入れるフォルダ
-         ┗ 📁2014           // 2014年度の授業科目に係る情報(学生による授業アンケート結果・成績評価状況等)が書かれたファイルが入ったフォルダ
-              ～            
-         ┗ 📁2023           // 2023年度の授業科目に係る情報(学生による授業アンケート結果・成績評価状況等)が書かれたファイルが入ったフォルダ
+         ┣ 📁2014           // 2014年度の授業科目に係る情報(学生による授業アンケート結果・成績評価状況等)が書かれたファイルが入ったフォルダ
+         ┃     ～            
+         ┣ 📁2023           // 2023年度の授業科目に係る情報(学生による授業アンケート結果・成績評価状況等)が書かれたファイルが入ったフォルダ
          ┗ 📃 rishu_I.pdf   // 履修申請要領(必要なら各自ダウンロードしてください)
-      ┗ 📁txt               // txtファイルを入れるフォルダ
+      ┣ 📁txt               // txtファイルを入れるフォルダ
       ┗ 📃 summarize.txt    // txtフォルダ内のtxtファイルの情報をまとめたもの
-   ┗ 📁templates            // htmlファイルを入れるフォルダ
-   ┗ 📁python               // プログラムを動かすのに必要なpythonファイル
-     📃 app.py              // ウェブアプリケーションを起動するプログラム
-     📃 readpdf.py          // rishu_I.pdfから必要な情報を抜き出しtxtフォルダ内のtxtファイルに保存するプログラム
-     📃 summarize.py        // txtフォルダ内のtxtファイルの情報をsummarize.txtにまとめるためのプログラム
-     📃 requirements.txt    // setup.sh実行時に必要
-     📃 setup.sh            // 初回セットアップ時に実行するshellプログラム(pythonのダウンロード)
-     📃 download.sh         // 必要なpdfファイルをダウンロードする(学内WiFi必須)
-     📃 README.md           // 説明書
+   ┣ 📁templates            // htmlファイルを入れるフォルダ
+   ┣ 📁python               // プログラムを動かすのに必要なpythonファイル
+   ┣ 📃 app.py              // ウェブアプリケーションを起動するプログラム
+   ┣ 📃 readpdf.py          // rishu_I.pdfから必要な情報を抜き出しtxtフォルダ内のtxtファイルに保存するプログラム
+   ┣ 📃 summarize.py        // txtフォルダ内のtxtファイルの情報をsummarize.txtにまとめるためのプログラム
+   ┣ 📃 requirements.txt    // setup.sh実行時に必要
+   ┣ 📃 setup.sh            // 初回セットアップ時に実行するshellプログラム(pythonのダウンロード)
+   ┣ 📃 download.sh         // 必要なpdfファイルをダウンロードする(学内WiFi必須)
+   ┗ 📃 README.md           // 説明書
 ```
 
 ## 実行方法
