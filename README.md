@@ -48,7 +48,7 @@ download.shの"years=$(seq 2014 2023)"の2023の部分を書き換える.
 sh download.shを実行する.  
 app.pyの"YEAR = 2023"の2023の部分を書き換える.  
 
-### rishu_I.pdfファイルを新たに読み込む場合  
+### rishu_I.pdfファイルの情報を新たに読み込む場合  
 readpdf.pyの'output_txt_path = "./static/txt/test.txt"'のtest.txtの部分と読み取りたいページ範囲と抽出したい列のインデックスを書き換えて実行する.(python/python.exe readpdf.py)  
 抽出したい列のインデックスは不必要なほうのみをコメントアウトさせる.  
 summarize.pyを実行する.(python/python.exe summarize.py)  
