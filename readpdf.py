@@ -1,6 +1,6 @@
 import pdfplumber
 
-pdf_path = "./static/pdf/rishu2024.pdf"
+pdf_path = "./static/pdf/rishu_I.pdf"
 output_txt_path = "./static/txt/test.txt"  # 保存するテキストファイルのパス
 
 # 読み取りたいページ範囲を指定
