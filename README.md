@@ -18,9 +18,14 @@ sh setup.sh
   📁class_checker       // 作成したMinecraft_Contestフォルダ
    ┗ 📁static               // Botを動かすために必要なpythonファイル関係
    ┗ 📁templates               // yoloをコンテナで動かす環境（試作）
+   ┗ 📁python              // yoloをコンテナで動かす環境（試作）
      📃 app.py              // ウェブアプリケーションを起動するファイル
      📃 readpdf.py           // control.cファイルのヘッダファイル
      📃 summarize.py           // botプログラムのサンプル．このプログラムを参考にbotプログラムを書く
      📃 requirements.txt    // setup.sh実行時に必要
      📃 setup.sh            // 初回セットアップ時に実行するshellプログラム
 ```
+
+## 実行方法
+
+python/python.exe app.py
