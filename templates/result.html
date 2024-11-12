@@ -42,7 +42,6 @@
                     <button class="column-options" data-column="0">・・・</button>
                     <button class="id-options">select</button>
                     <div class="id-filter" style="display: none;">
-                        <label><input type="checkbox" value="">すべて</label>
                         {% for item in range(2014,YEAR+1) %}
                         <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
                         {% endfor %}
@@ -52,7 +51,6 @@
                     <button class="column-options" data-column="1">・・・</button>
                     <button class="id-options">select</button>
                     <div class="id-filter" style="display: none;">
-                        <label><input type="checkbox" value="">すべて</label>
                         {% for item in ["IS","IM","IC","IN","ID","IR","共通科目"] %}
                         <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
                         {% endfor %}
@@ -62,7 +60,6 @@
                     <button class="column-options" data-column="2">・・・</button>
                     <button class="id-options">select</button>
                     <div class="id-filter" style="display: none;">
-                        <label><input type="checkbox" value="">すべて</label>
                         {% for item in ["前期","後期"] %}
                         <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
                         {% endfor %}
@@ -91,7 +88,6 @@
                     <button class="column-options" data-column="6">・・・</button>
                     <button class="id-options">select</button>
                     <div class="id-filter" style="display: none;">
-                        <label><input type="checkbox" value="">すべて</label>
                         {% for item in ["1","2","3","4","1～4","2～4","3･4"] %}
                         <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
                         {% endfor %}
@@ -101,7 +97,6 @@
                     <button class="column-options" data-column="7">・・・</button>
                     <button class="id-options">select</button>
                     <div class="id-filter" style="display: none;">
-                        <label><input type="checkbox" value="">すべて</label>
                         {% for item in ["1","2","3"] %}
                         <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
                         {% endfor %}
@@ -111,7 +106,6 @@
                     <button class="column-options" data-column="8">・・・</button>
                     <button class="id-options">select</button>
                     <div class="id-filter" style="display: none;">
-                        <label><input type="checkbox" value="">すべて</label>
                         {% for item in ["必修","選必","選択"] %}
                         <label><input type="checkbox" class="id-checkbox" value="{{ item }}">{{ item }}</label>
                         {% endfor %}
@@ -270,7 +264,6 @@
 <script>
     $(document).ready(function () {
         var table = $('#dataTable').DataTable({
-            // DataTablesの設定
             "searching": true,
             "ordering": true,
             "lengthChange": false,
@@ -315,7 +308,6 @@
                 top: buttonPosition.top + $(this).outerHeight(),
                 left: buttonPosition.left
             }).show().data('columnIndex', columnIndex);
-
             menu.off('click').on('click', 'button', function () {
                 switch ($(this).text()) {
                     case '昇順で並び替え':
@@ -336,18 +328,17 @@
             });
         });
 
-        // 列の表示/非表示を切り替える
+        // 列の表示/非表示
         $('.column-checkbox').on('change', function () {
             var column = $(this).data('column');
             var isChecked = $(this).is(':checked');
             table.column(column).visible(isChecked);
         });
 
-        // IDフィルターの表示切り替え
+        // IDオプションメニューの表示/非表示切り替え
         $('.id-options').on('click', function (e) {
             e.stopPropagation();
-            var filterMenu = $(this).next('.id-filter');
-            filterMenu.toggle();
+            $(this).next('.id-filter').toggle();
         });
 
         // メニューボタンのクリックイベントで表示を切り替え
@@ -375,7 +366,8 @@
 
             // フィルタリング条件を設定
             if (checkedValues.length) {
-                table.column(columnIndex).search(checkedValues.join('|'), true, false).draw(); // 正規表現で検索
+                var searchPattern = '^(' + checkedValues.join('|') + ')$';
+                table.column(columnIndex).search(searchPattern, true, false).draw(); // 正規表現で検索
             } else {
                 table.column(columnIndex).search('').draw(); // チェックされていない場合は全て表示
             }
@@ -384,37 +376,37 @@
         // 「すべて」のチェックボックスをクリックしたときのイベント
         $('.id-filter input[type="checkbox"][value=""]').on('change', function () {
             var isChecked = $(this).is(':checked');
-            $(this).closest('.id-filter').find('.id-checkbox').prop('checked', isChecked);
+            var columnFilter = $(this).closest('.id-filter');
 
-            // チェックボックスが全て選択された場合、フィルタをクリア
+            // 「すべて」のチェックボックスが選択された場合
             if (isChecked) {
-                table.columns().search('').draw(); // 全ての行を表示
+                // その列のすべてのチェックボックスにチェックを入れる
+                columnFilter.find('.id-checkbox').prop('checked', true);
+                columnFilter.find('.id-checkbox-student-filter').prop('checked', true);
             } else {
-                // その他のチェックボックスの状態に基づいてフィルタリングを更新
-                $('.id-checkbox').trigger('change'); // すべてのチェックボックスの状態を更新
             }
+            $('.id-checkbox:checked').trigger('change');  // チェックされているものをフィルタリング
+            $('.id-checkbox-student-filter').trigger('change');  // チェックされているものをフィルタリング
         });
 
-        // 他のチェックボックスがクリックされたとき、「すべて」のチェックボックスを更新
+        // 「すべて」以外のチェックボックスが変更されたときのイベント
         $('.id-checkbox').on('change', function () {
-            var allChecked = $(this).closest('.id-filter').find('.id-checkbox').length ===
-                $(this).closest('.id-filter').find('.id-checkbox:checked').length;
-            $(this).closest('.id-filter').find('input[type="checkbox"][value=""]').prop('checked', allChecked);
+            var $allCheckbox = $(this).closest('.id-filter').find('input[type="checkbox"][value=""]');
+
+            // 「すべて」がチェックされている場合のみ、状態を更新
+            if ($allCheckbox.is(':checked')) {
+                var allChecked = $(this).closest('.id-filter').find('.id-checkbox').not('[value=""]').length ===
+                    $(this).closest('.id-filter').find('.id-checkbox:checked').not('[value=""]').length;
+
+                // 全てのチェックが入っていなければ「すべて」のチェックを外す
+                $allCheckbox.prop('checked', allChecked);
+            }
         });
 
-        // チェックボックスによるフィルタリング
-        $('.id-checkbox-student-filter').change(function () {
+        // 受講人数のチェックボックスによるフィルタリング
+        $('.id-checkbox-student-filter').on('change', function () {
+            // 他の列の状態に基づいて行を表示
             var selectedRanges = [];
-            var showAll = $('.id-checkbox-student-filter:checked[value=""]').length > 0; // 「すべて」が選択されているか確認
-
-            // 「すべて」が選択されている場合、すべての行を表示
-            if (showAll) {
-                $('#dataTable tbody tr').show(); // すべての行を表示
-                $('.id-checkbox-student-filter').not(':checked').prop('checked', false); // 他のチェックボックスを非選択に
-                return; // 他の処理は不要
-            }
-
-            // 選択された範囲を収集
             $('.id-checkbox-student-filter:checked').each(function () {
                 selectedRanges.push(parseInt($(this).val()));
             });
@@ -422,10 +414,9 @@
             $('#dataTable tbody tr').each(function () {
                 var studentNum = parseInt($(this).find('td:nth-child(6)').text());
                 var showRow = selectedRanges.some(function (range) {
-                    return studentNum >= range && studentNum < (range + 10); // 10の範囲でチェック
+                    return studentNum >= range && studentNum < (range + 10);
                 });
 
-                // 行の表示/非表示を決定
                 if (showRow) {
                     $(this).show();
                 } else {
@@ -434,19 +425,17 @@
             });
         });
 
-        // 「すべて」のチェックボックスをクリックしたときのイベント
-        $('.id-filter input[type="checkbox"][value=""]').on('change', function () {
-            var isChecked = $(this).is(':checked');
-            // id-checkbox-student-filterの全てのチェックボックスをチェックまたはチェック解除
-            $(this).closest('.id-filter').find('.id-checkbox-student-filter').prop('checked', isChecked);
+        // 「すべて」以外のチェックボックスが変更されたときのイベント
+        $('.id-checkbox-student-filter').on('change', function () {
+            var $allCheckbox = $(this).closest('.id-filter').find('input[type="checkbox"][value=""]');
 
-            // チェックボックスの状態に基づいてフィルタリングを更新
-            if (isChecked) {
-                // チェックされた場合、全ての行を表示
-                $('#dataTable tbody tr').show(); // すべての行を表示
-            } else {
-                // チェックが外れた場合、他のチェックボックスの状態に基づいてフィルタリングを実行
-                $('.id-checkbox-student-filter:checked').trigger('change'); // チェックされているものをフィルタリング
+            // 「すべて」がチェックされている場合のみ、状態を更新
+            if ($allCheckbox.is(':checked')) {
+                var allChecked = $(this).closest('.id-filter').find('.id-checkbox-student-filter').not('[value=""]').length ===
+                    $(this).closest('.id-filter').find('.id-checkbox-student-filter:checked').not('[value=""]').length;
+
+                // 全てのチェックが入っていなければ「すべて」のチェックを外す
+                $allCheckbox.prop('checked', allChecked);
             }
         });
     });
