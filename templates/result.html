@@ -384,6 +384,8 @@
                 columnFilter.find('.id-checkbox').prop('checked', true);
                 columnFilter.find('.id-checkbox-student-filter').prop('checked', true);
             } else {
+                columnFilter.find('.id-checkbox').prop('checked', false);
+                columnFilter.find('.id-checkbox-student-filter').prop('checked', false);
             }
             $('.id-checkbox:checked').trigger('change');  // チェックされているものをフィルタリング
             $('.id-checkbox-student-filter').trigger('change');  // チェックされているものをフィルタリング
