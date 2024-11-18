@@ -294,6 +294,8 @@
             if (filterValue === "") {
                 table.column(columnIndex).search('').draw(); // フィルタをリセット
             }
+            $('.id-checkbox:checked').trigger('change');  // チェックされているものをフィルタリング
+            $('.id-checkbox-student-filter').trigger('change');  // チェックされているものをフィルタリング
         });
 
         // メニューの設定
