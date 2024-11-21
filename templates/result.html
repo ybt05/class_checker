@@ -77,10 +77,9 @@
                     <button class="column-options" data-column="5">・・・</button>
                     <button class="id-options">select</button>
                     <div class="id-filter" style="display: none;">
-                        <label><input type="checkbox" value="">すべて</label>
+                        <label><input type="checkbox" value="" checked>すべて</label>
                         {% for item in range(0,301,10) %}
-                        <label><input type="checkbox" class="id-checkbox-student-filter" value="{{ item }}">{{ item
-                            }}</label>
+                        <label><input type="checkbox" class="id-checkbox-student-filter" value="{{ item }}" checked>{{ item }}</label>
                         {% endfor %}
                     </div>
                 </th>
