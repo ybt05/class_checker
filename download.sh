@@ -25,7 +25,7 @@ declare -A renameMap2=(
 )
 
 # 各組み合わせに対してURLを生成し、ファイルをダウンロード
-for year in $years2; do
+for year in $years; do
     # 年度ごとのディレクトリを作成
     downloadPath="./static/pdf/$year"
     mkdir -p "$downloadPath"
@@ -46,7 +46,7 @@ for year in $years2; do
 done
 
 # 2014年から2023年までファイル名をリネーム
-for year in $years3; do
+for year in $years2; do
     for number in $numbers; do
         for term in "${terms[@]}"; do
             originalFileName="./static/pdf/$year/info-$year-$term-$number.pdf"
@@ -65,7 +65,7 @@ for year in $years3; do
 done
 
 # 2024年からファイル名をリネーム
-for year in $years; do
+for year in $years3; do
     for number in $numbers; do
         for term in "${terms[@]}"; do
             originalFileName="./static/pdf/$year/info-$year-$term-$number.pdf"
