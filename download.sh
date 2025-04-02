@@ -1,5 +1,5 @@
 # 年、zenki/kouki、01-06のリストを定義
-years=$(seq 2014 2023)
+years=$(seq 2014 2024)
 terms=("zenki" "kouki")
 numbers=$(seq -w 01 06) # 01, 02, ..., 06
 

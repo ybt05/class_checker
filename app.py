@@ -5,7 +5,7 @@ import threading, webbrowser
 
 ServiceName = "OIT ClassChecker"
 app = Flask(__name__, static_url_path="/static")
-YEAR = 2023
+YEAR = 2024
 
 columns = ['年度', '学科', '期間', '授業科目名', '授業担当者', '履修者数', '学年', '単位数', '必修',' 合格率',
             'G(合格)', 'A', 'B', 'C', 'D', 'F', '*(評価不能)', 'GPA', 'GP中央値',
