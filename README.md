@@ -13,6 +13,15 @@ sh setup.sh
 sh download.sh
 ```
 
+## 実行方法
+
+カレントディレクトリがclass_checkerの状態で以下のコマンドを実行する.
+``` sh
+python/python.exe app.py
+```
+
+## おまけ
+
 以下にclass_checkerフォルダのフォルダ構造を記載しておく．
 
 ``` file
@@ -37,11 +46,7 @@ sh download.sh
    ┗ 📃 README.md           // 説明書
 ```
 
-## 実行方法
-
-python/python.exe app.py
-
-## 2024年度以降の情報に対応させる方法
+### 2024年度以降の情報に対応させる方法
 
 download.shの"years=$(seq 2014 2024)"の2024の部分を書き換える.  
 必要に応じてリネームのマッピングの部分も書き換える.  (IR非対応のため)
@@ -49,6 +54,7 @@ sh download.shを実行する.
 app.pyの"YEAR = 2024"の2024の部分を書き換える.  
 
 ### rishu_I.pdfファイルの情報を新たに読み込む場合  
+
 readpdf.pyの'output_txt_path = "./static/txt/test.txt"'のtest.txtの部分と読み取りたいページ範囲と抽出したい列のインデックスを書き換えて実行する.(python/python.exe readpdf.py)  
 抽出したい列のインデックスは不必要なほうのみをコメントアウトさせる.  
 summarize.pyを実行する.(python/python.exe summarize.py)  
